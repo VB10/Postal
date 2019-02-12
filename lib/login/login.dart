@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 class Login extends StatelessWidget {
+final GoogleSignIn _googleSignIn = GoogleSignIn();
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
+Future<FirebaseUser> _handleSignIn() async {
+  final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+  final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+  final AuthCredential credential = GoogleAuthProvider.getCredential(
+    accessToken: googleAuth.accessToken,
+    idToken: googleAuth.idToken,
+  );
+
+  final FirebaseUser user = await _auth.signInWithCredential(credential);
+  print("signed in " + user.displayName);
+  return user;
+}
   Widget _buildText(
       {String text, Color color, Color textColor = Colors.white}) {
     return Container(
@@ -51,9 +68,14 @@ class Login extends StatelessWidget {
                           fontSize: 15.0)),
                 ),
                 SizedBox(height: 20),
+                //hex color 0xFF+hex
                 RaisedButton(
-                  onPressed: () {},
-                  color: Colors.green,
+                  onPressed: () {
+                    _handleSignIn()
+    .then((FirebaseUser user) => print(user))
+    .catchError((e) => print(e));
+                  },
+                  color: Color(0xFF00E381),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(23)),
                   ),
