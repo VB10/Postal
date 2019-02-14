@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:postal/tab/packet/main.dart';
+import 'package:postal/tab/tab.dart';
+
 class Login extends StatelessWidget {
-final GoogleSignIn _googleSignIn = GoogleSignIn();
-final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-Future<FirebaseUser> _handleSignIn() async {
-  final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-  final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+  Future<FirebaseUser> _handleSignIn() async {
+    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
 
-  final AuthCredential credential = GoogleAuthProvider.getCredential(
-    accessToken: googleAuth.accessToken,
-    idToken: googleAuth.idToken,
-  );
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
 
-  final FirebaseUser user = await _auth.signInWithCredential(credential);
-  print("signed in " + user.displayName);
-  return user;
-}
+    final FirebaseUser user = await _auth.signInWithCredential(credential);
+    print("signed in " + user.displayName);
+    return user;
+  }
+
   Widget _buildText(
       {String text, Color color, Color textColor = Colors.white}) {
     return Container(
@@ -71,9 +76,12 @@ Future<FirebaseUser> _handleSignIn() async {
                 //hex color 0xFF+hex
                 RaisedButton(
                   onPressed: () {
-                    _handleSignIn()
-    .then((FirebaseUser user) => print(user))
-    .catchError((e) => print(e));
+                    _handleSignIn().then((FirebaseUser user) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => TabPage()),
+                      );
+                    }).catchError((e) => print(e));
                   },
                   color: Color(0xFF00E381),
                   shape: RoundedRectangleBorder(
