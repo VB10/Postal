@@ -1,12 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:postal/tab/packet/main.dart';
 import 'package:postal/tab/tab.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../main.dart';
+
+
 
 class Login extends StatelessWidget {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  BuildContext _context = null;
+
+  Login() {
+    if (_context != null) {
+      Navigator.push(
+          _context, MaterialPageRoute(builder: (context) => TabPage()));
+    } else {
+      print("false");
+    }
+  }
 
   Future<FirebaseUser> _handleSignIn() async {
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
@@ -23,21 +36,16 @@ class Login extends StatelessWidget {
     return user;
   }
 
-  Widget _buildText(
-      {String text, Color color, Color textColor = Colors.white}) {
-    return Container(
-      alignment: AlignmentDirectional.center,
-      color: color,
-      child: Text(
-        text,
-        style: TextStyle(color: textColor, fontSize: 32.0),
-        textAlign: TextAlign.center,
-      ),
-    );
+  _saveUserID(String userId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // await prefs.setString(PREFKEY.userId.toString(), userId);
+    if (PREFKEY.userId.toString().isNotEmpty) {
+    } else {}
   }
 
   @override
   Widget build(BuildContext context) {
+    _context = context;
     return Container(
       color: Colors.white,
       child: Column(
@@ -77,10 +85,7 @@ class Login extends StatelessWidget {
                 RaisedButton(
                   onPressed: () {
                     _handleSignIn().then((FirebaseUser user) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => TabPage()),
-                      );
+                      _saveUserID(user.uid);
                     }).catchError((e) => print(e));
                   },
                   color: Color(0xFF00E381),

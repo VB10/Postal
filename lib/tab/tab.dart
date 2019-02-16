@@ -5,7 +5,7 @@ class TabPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.transparent,
-      child: SafeArea(
+    
         child: DefaultTabController(
           length: 4,
           child: Scaffold(
@@ -41,7 +41,7 @@ class TabPage extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      
     );
   }
 }
