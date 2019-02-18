@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import './login/login.dart';
 import './tab/packet/main.dart';
 import './tab/tab.dart';
 import './login/main.dart';
 
 void main() => runApp(MyApp());
 
-enum PREFKEY{
-  userId
-}
+enum PREFKEY { userId }
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -16,11 +14,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-
+      initialRoute: '/',
+      routes: {
+        // When we navigate to the "/" route, build the FirstScreen Widget
+        '/login': (context) => LoginPage(),
+        // When we navigate to the "/second" route, build the SecondScreen Widget
+        '/tab': (context) => TabPage(),
+      },
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: LoginPage(), );
+      home: LoginPage(),
+    );
   }
 }
-
