@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import './tab/packet/main.dart';
-import './tab/tab.dart';
-import './login/main.dart';
+import './view/tab/packet/main.dart';
+import './view/tab/tab.dart';
+import './view/login/main.dart';
 
 void main() => runApp(MyApp());
 
 enum PREFKEY { userId }
 
 class MyApp extends StatelessWidget {
+  
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -28,3 +29,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

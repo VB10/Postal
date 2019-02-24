@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:postal/tab/tab.dart';
+import '../tab/tab.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/scheduler.dart';
-import '../main.dart';
+import '../../main.dart';
 
 class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
