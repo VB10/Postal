@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import './tsx.dart';
-import '../tabStatles.dart';
-import './segmentcontrol.dart';
+import './content.dart';
 class Packet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -14,7 +13,7 @@ class Packet extends StatelessWidget {
           style: TextStyle(color: Color.fromRGBO(25, 22, 96, 1)),
         ),
       ),
-      body: MyTabbedPage()
+      body: PacketContent()
     );
   }
 }
