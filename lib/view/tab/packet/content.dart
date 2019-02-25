@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../model/choice.dart';
+import '../../../model/record.dart';
 
 class PacketContent extends StatefulWidget {
   @override
@@ -14,6 +16,34 @@ class _PacketContentState extends State<PacketContent>
   void initState() {
     super.initState();
     controller = new TabController(vsync: this, length: choices.length);
+  }
+
+ Widget _buildBody(BuildContext context) {
+   return _buildList(context, dummySnapshot);
+ }
+  Widget _buildList(BuildContext context, List<Map> snapshot) {
+    return ListView(
+        padding: EdgeInsets.only(top: 10),
+        children: snapshot.map((data) => _buildListItem(context, data)).toList());
+  }
+
+  Widget _buildListItem(BuildContext context, Map data) {
+    final record = Record.fromMap(data);
+
+    return Padding(
+      key: ValueKey(record.name),
+      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(5.0)),
+        child: ListTile(
+          title: Text(record.name),
+          trailing: Text(record.votes.toString()),
+          onTap: () => print(record),
+        ),
+      ),
+    );
   }
 
   @override
@@ -63,41 +93,12 @@ class _PacketContentState extends State<PacketContent>
               }).toList(),
             ),
           )),
-          Expanded(
-              flex: 1,
-              child: Container(
-                color: Color.fromRGBO(246, 246, 249, 0.1),
-                child: TabBarView(
-                  controller: controller,
-                  children: choices.map((Choice choice) {
-                    return Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: ChoiceCard(choice: choice),
-                    );
-                  }).toList(),
-                ),
-              ))
+          Expanded(flex: 1, child: _buildBody(context))
         ],
       )),
     );
   }
 }
-
-class Choice {
-  const Choice({this.id, this.title, this.icon});
-  final int id;
-  final String title;
-  final IconData icon;
-}
-
-const List<Choice> choices = const <Choice>[
-  const Choice(id: 0, title: 'CAR', icon: Icons.directions_car),
-  const Choice(id: 1, title: 'BICYCLE', icon: Icons.directions_bike),
-  const Choice(id: 2, title: 'BOAT', icon: Icons.directions_boat),
-  const Choice(id: 3, title: 'BUS', icon: Icons.directions_bus),
-  const Choice(id: 4, title: 'TRAIN', icon: Icons.directions_railway),
-  const Choice(id: 5, title: 'WALK', icon: Icons.directions_walk),
-];
 
 class ChoiceCard extends StatelessWidget {
   const ChoiceCard({Key key, this.choice}) : super(key: key);
@@ -122,3 +123,18 @@ class ChoiceCard extends StatelessWidget {
     );
   }
 }
+// Tabbar view 
+          // Expanded(
+          //     flex: 1,
+          //     child: Container(
+          //       color: Color.fromRGBO(246, 246, 249, 0.1),
+          //       child: TabBarView(
+          //         controller: controller,
+          //         children: choices.map((Choice choice) {
+          //           return Padding(
+          //             padding: const EdgeInsets.all(16.0),
+          //             child: ChoiceCard(choice: choice),
+          //           );
+          //         }).toList(),
+          //       ),
+          //     ))
